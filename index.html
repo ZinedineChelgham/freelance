@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Zinedine Chelgham - Ingénieur full-stack | IA & Automatisation
+    </title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-color: #0a0a0a;
+        --secondary-color: #1a1a1a;
+        --accent-color: #00d4ff;
+        --text-primary: #ffffff;
+        --text-secondary: #a0a0a0;
+        --card-bg: rgba(26, 26, 26, 0.8);
+        --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      [data-theme="light"] {
+        --primary-color: #ffffff;
+        --secondary-color: #f8f9fa;
+        --accent-color: #2563eb;
+        --text-primary: #1f2937;
+        --text-secondary: #6b7280;
+        --card-bg: rgba(255, 255, 255, 0.9);
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: var(--primary-color);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Theme Toggle */
+      .controls {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+
+      .theme-toggle,
+      .lang-toggle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 2px solid rgba(0, 212, 255, 0.3);
+        background: var(--card-bg);
+        color: var(--accent-color);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        position: relative;
+      }
+
+      .theme-toggle:hover,
+      .lang-toggle:hover {
+        transform: scale(1.1);
+        border-color: var(--accent-color);
+        box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+      }
+
+      .lang-toggle {
+        font-size: 0.8rem;
+        font-weight: bold;
+        width: 60px;
+        border-radius: 30px;
+      }
+
+      [data-theme="light"] .bg-animation {
+        background: radial-gradient(
+          ellipse at center,
+          rgba(37, 99, 235, 0.05) 0%,
+          transparent 70%
+        );
+      }
+
+      [data-theme="light"] .bg-animation::before {
+        background: radial-gradient(
+            circle at 20% 80%,
+            rgba(102, 126, 234, 0.08) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(118, 75, 162, 0.08) 0%,
+            transparent 50%
+          );
+      }
+      .bg-animation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(0, 212, 255, 0.05) 0%,
+          transparent 70%
+        );
+      }
+
+      .bg-animation::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 20% 80%,
+            rgba(102, 126, 234, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(118, 75, 162, 0.1) 0%,
+            transparent 50%
+          );
+        animation: float 20s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0px, 0px) rotate(0deg);
+        }
+        33% {
+          transform: translate(30px, -50px) rotate(120deg);
+        }
+        66% {
+          transform: translate(-20px, 20px) rotate(240deg);
+        }
+      }
+
+      /* Header */
+      header {
+        padding: 60px 0 120px;
+        text-align: center;
+        position: relative;
+      }
+
+      .profile-image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: var(--gradient);
+        margin: 0 auto 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 60px;
+        font-weight: bold;
+        color: white;
+        box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+        animation: pulse 3s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+        }
+        50% {
+          transform: scale(1.05);
+          box-shadow: 0 25px 50px rgba(0, 212, 255, 0.5);
+        }
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, #ffffff 0%, #00d4ff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: slideInUp 1s ease-out;
+      }
+
+      .hero .subtitle {
+        font-size: 1.5rem;
+        color: var(--accent-color);
+        margin-bottom: 10px;
+        animation: slideInUp 1s ease-out 0.2s both;
+      }
+
+      .hero .description {
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+        max-width: 600px;
+        margin: 0 auto 40px;
+        animation: slideInUp 1s ease-out 0.4s both;
+      }
+
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Navigation */
+      .nav-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 40px;
+      }
+
+      .nav-btn {
+        padding: 15px 30px;
+        background: var(--card-bg);
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        border-radius: 50px;
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .nav-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(0, 212, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .nav-btn:hover::before {
+        left: 100%;
+      }
+
+      .nav-btn:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-color);
+        box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+      }
+
+      /* Sections */
+      section {
+        padding: 80px 0;
+        position: relative;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 60px;
+        background: linear-gradient(135deg, #ffffff 0%, #00d4ff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Skills Grid */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+      }
+
+      .skill-card {
+        background: var(--card-bg);
+        padding: 30px;
+        border-radius: 20px;
+        border: 1px solid rgba(0, 212, 255, 0.1);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .skill-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--gradient);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .skill-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .skill-card:hover {
+        transform: translateY(-10px);
+        border-color: rgba(0, 212, 255, 0.3);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .skill-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--gradient);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+
+      /* Projects Grid */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 40px;
+      }
+
+      .project-card {
+        background: var(--card-bg);
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(0, 212, 255, 0.1);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .project-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 212, 255, 0.1) 0%,
+          rgba(118, 75, 162, 0.1) 100%
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .project-card:hover::before {
+        opacity: 1;
+      }
+
+      .project-card:hover {
+        transform: translateY(-10px);
+        border-color: rgba(0, 212, 255, 0.3);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+      }
+
+      .project-header {
+        padding: 30px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .project-type {
+        color: var(--accent-color);
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+      }
+
+      .project-title {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: var(--text-primary);
+      }
+
+      .project-description {
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      .project-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .tech-tag {
+        padding: 5px 12px;
+        background: rgba(0, 212, 255, 0.1);
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        border-radius: 20px;
+        font-size: 0.8rem;
+        color: var(--accent-color);
+      }
+
+      /* Contact Section */
+      .contact-content {
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+      }
+
+      .contact-item {
+        background: var(--card-bg);
+        padding: 30px;
+        border-radius: 15px;
+        border: 1px solid rgba(0, 212, 255, 0.1);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: var(--text-primary);
+        display: block;
+      }
+
+      .contact-item:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-color);
+        box-shadow: 0 15px 30px rgba(0, 212, 255, 0.2);
+      }
+
+      .contact-icon {
+        font-size: 2rem;
+        margin-bottom: 15px;
+        color: var(--accent-color);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero .subtitle {
+          font-size: 1.2rem;
+        }
+
+        .hero .description {
+          font-size: 1rem;
+        }
+
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .skills-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .nav-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Loading animation */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(50px);
+        animation: fadeInUp 0.8s ease-out forwards;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="controls">
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+        🌙
+      </button>
+      <button
+        class="lang-toggle"
+        onclick="toggleLanguage()"
+        title="Switch language"
+      >
+        FR
+      </button>
+    </div>
+
+    <div class="bg-animation"></div>
+
+    <header>
+      <div class="container">
+        <div class="hero">
+          <div class="profile-image">ZC</div>
+          <h1 data-fr="Zinedine Chelgham" data-en="Zinedine Chelgham">
+            Zinedine Chelgham
+          </h1>
+          <p
+            class="subtitle"
+            data-fr="Ingénieur Informatique & Expert en Automatisation IA"
+            data-en="Software Engineer & AI Automation Expert"
+          >
+            Ingénieur Informatique & Expert en Automatisation IA
+          </p>
+          <p
+            class="description"
+            data-fr="Freelance passionné par l'intelligence artificielle et l'automatisation des processus métier. Je transforme vos idées en solutions technologiques innovantes et performantes."
+            data-en="Freelance passionate about artificial intelligence and business process automation. I transform your ideas into innovative and high-performance technological solutions."
+          >
+            Freelance passionné par l'intelligence artificielle et
+            l'automatisation des processus métier. Je transforme vos idées en
+            solutions technologiques innovantes et performantes.
+          </p>
+          <div class="nav-buttons">
+            <a
+              href="#competences"
+              class="nav-btn"
+              data-fr="Compétences"
+              data-en="Skills"
+              >Compétences</a
+            >
+            <a
+              href="#projets"
+              class="nav-btn"
+              data-fr="Projets"
+              data-en="Projects"
+              >Projets</a
+            >
+            <a
+              href="#contact"
+              class="nav-btn"
+              data-fr="Contact"
+              data-en="Contact"
+              >Contact</a
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section id="competences">
+      <div class="container">
+        <h2
+          class="section-title"
+          data-fr="Expertise Technique"
+          data-en="Technical Expertise"
+        >
+          Expertise Technique
+        </h2>
+        <div class="skills-grid">
+          <div class="skill-card fade-in">
+            <div class="skill-icon">🤖</div>
+            <h3 data-fr="Automatisation IA" data-en="AI Automation">
+              Automatisation IA
+            </h3>
+            <p
+              data-fr="Développement de workflows intelligents avec Make.com et n8n pour optimiser vos processus métier et réduire les tâches répétitives."
+              data-en="Development of intelligent workflows with Make.com and n8n to optimize your business processes and reduce repetitive tasks."
+            >
+              Développement de workflows intelligents avec Make.com et n8n pour
+              optimiser vos processus métier et réduire les tâches répétitives.
+            </p>
+          </div>
+
+          <div class="skill-card fade-in">
+            <div class="skill-icon">🌐</div>
+            <h3 data-fr="Développement Web" data-en="Web Development">
+              Développement Web
+            </h3>
+            <p
+              data-fr="Applications web performantes et intuitives avec React, Angular, Node.js et intégrations full-stack."
+              data-en="High-performance and intuitive web applications with React, Angular, Node.js, and full-stack integrations."
+            >
+              Applications web performantes et intuitives avec React, Angular,
+              Node.js et intégrations full-stack.
+            </p>
+          </div>
+          <div class="skill-card fade-in">
+            <div class="skill-icon">🟢</div>
+            <h3
+              data-fr="Développement Backend (Spring Boot)"
+              data-en="Backend Development (Spring Boot)"
+            >
+              Développement Backend (Spring Boot)
+            </h3>
+            <p
+              data-fr="Conception d’API REST robustes et performantes avec Java et Spring Boot, intégrées à des bases de données SQL/NoSQL."
+              data-en="Design of robust and high-performance REST APIs with Java and Spring Boot, integrated with SQL/NoSQL databases."
+            >
+              Conception d’API REST robustes et performantes avec Java et Spring
+              Boot, intégrées à des bases de données SQL/NoSQL.
+            </p>
+          </div>
+          <div class="skill-card fade-in">
+            <div class="skill-icon">📱</div>
+            <h3
+              data-fr="Développement Mobile (React Native & Firebase)"
+              data-en="Mobile Development (React Native & Firebase)"
+            >
+              Développement Mobile (React Native & Firebase)
+            </h3>
+            <p
+              data-fr="Création d’applications mobiles cross-platform performantes avec React Native et intégration de services temps réel grâce à Firebase."
+              data-en="Creation of high-performance cross-platform mobile applications with React Native and real-time services integration using Firebase."
+            >
+              Création d’applications mobiles cross-platform performantes avec
+              React Native et intégration de services temps réel grâce à
+              Firebase.
+            </p>
+          </div>
+          <!-- <div class="skill-card fade-in">
+            <div class="skill-icon">📊</div>
+            <h3 data-fr="Data Science & IA" data-en="Data Science & AI">
+              Data Science & IA
+            </h3>
+            <p
+            
+              data-fr="Analyse de données, machine learning et intelligence artificielle pour transformer vos données en insights actionnables."
+              data-en="Data analysis, machine learning, and artificial intelligence to transform your data into actionable insights."
+            >
+              Analyse de données, machine learning et intelligence artificielle
+              pour transformer vos données en insights actionnables.
+            </p>
+          </div> -->
+        </div>
+      </div>
+    </section>
+
+    <section id="projets">
+      <div class="container">
+        <h2
+          class="section-title"
+          data-fr="Projets Récents"
+          data-en="Recent Projects"
+        >
+          Projets Récents
+        </h2>
+        <div class="projects-grid">
+          <div class="project-card fade-in">
+            <div class="project-header">
+              <div
+                class="project-type"
+                data-fr="Automatisation IA"
+                data-en="AI Automation"
+              >
+                Automatisation IA
+              </div>
+              <h3
+                class="project-title"
+                data-fr="Système de Qualification Automatisé"
+                data-en="Automated Qualification System"
+              >
+                Système de Qualification Automatisé
+              </h3>
+              <p
+                class="project-description"
+                data-fr="Mise en place d'un workflow automatisé pour un cabinet de recrutement avec enrichissement des profils candidats via API et scoring intelligent."
+                data-en="Implementation of an automated workflow for a recruitment firm with candidate profile enrichment via API and intelligent scoring."
+              >
+                Mise en place d'un workflow automatisé pour un cabinet de
+                recrutement avec enrichissement des profils candidats via API et
+                scoring intelligent.
+              </p>
+              <div class="project-tech">
+                <span class="tech-tag">Make.com</span>
+                <span class="tech-tag">n8n</span>
+                <span class="tech-tag">OpenAI</span>
+              </div>
+            </div>
+          </div>
+          <div class="project-card fade-in">
+            <div class="project-header">
+              <div
+                class="project-type"
+                data-fr="Intégration API"
+                data-en="API Integration"
+              >
+                Intégration API
+              </div>
+              <h3
+                class="project-title"
+                data-fr="Synchronisation Multi-Plateformes"
+                data-en="Multi-Platform Synchronization"
+              >
+                Synchronisation Multi-Plateformes
+              </h3>
+              <p
+                class="project-description"
+                data-fr="Développement d'une passerelle entre CRM HubSpot, outil de facturation et plateforme emailing pour unifier les données clients."
+                data-en="Development of a gateway between HubSpot CRM, billing tool, and emailing platform to unify customer data."
+              >
+                Développement d'une passerelle entre CRM HubSpot, outil de
+                facturation et plateforme emailing pour unifier les données
+                clients.
+              </p>
+              <div class="project-tech">
+                <span class="tech-tag">HubSpot API</span>
+                <span class="tech-tag">Stripe API</span>
+                <span class="tech-tag">Sendgrid</span>
+              </div>
+            </div>
+          </div>
+          <div class="project-card fade-in">
+            <div class="project-header">
+              <div
+                class="project-type"
+                data-fr="Data Science"
+                data-en="Data Science"
+              >
+                Data Science
+              </div>
+              <h3
+                class="project-title"
+                data-fr="Dashboard IoT Temps Réel"
+                data-en="Real-Time IoT Dashboard"
+              >
+                Dashboard IoT Temps Réel
+              </h3>
+              <p
+                class="project-description"
+                data-fr="Création d'un tableau de bord en temps réel pour visualiser les données de capteurs IoT et générer des alertes prédictives."
+                data-en="Creation of a real-time dashboard to visualize IoT sensor data and generate predictive alerts."
+              >
+                Création d'un tableau de bord en temps réel pour visualiser les
+                données de capteurs IoT et générer des alertes prédictives.
+              </p>
+              <div class="project-tech">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">FastAPI</span>
+                <span class="tech-tag">React</span>
+                <span class="tech-tag">WebSocket</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <h2 class="section-title" data-fr="Contact" data-en="Contact">
+          Contact
+        </h2>
+        <div class="contact-content">
+          <p
+            data-fr="Discutons de votre projet et voyons comment l'automatisation et l'IA peuvent transformer votre entreprise."
+            data-en="Let's discuss your project and see how automation and AI can transform your business."
+          >
+            Discutons de votre projet et voyons comment l'automatisation et l'IA
+            peuvent transformer votre entreprise.
+          </p>
+          <div class="contact-grid">
+            <a href="mailto:zinedine.chelgham@outlook.fr" class="contact-item">
+              <div class="contact-icon">📧</div>
+              <h3>Email</h3>
+              <p>zinedine.chelgham@outlook.fr</p>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/zinedine-chelgham/"
+              target="_blank"
+              class="contact-item"
+            >
+              <div class="contact-icon">💼</div>
+              <h3>LinkedIn</h3>
+              <p>Zinedine Chelgham</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // === THEME TOGGLE ===
+      function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute(
+          "data-theme"
+        );
+        if (currentTheme === "light") {
+          document.documentElement.removeAttribute("data-theme");
+          localStorage.setItem("theme", "dark");
+          document.querySelector(".theme-toggle").textContent = "🌙";
+        } else {
+          document.documentElement.setAttribute("data-theme", "light");
+          localStorage.setItem("theme", "light");
+          document.querySelector(".theme-toggle").textContent = "☀️";
+        }
+      }
+
+      // Charger le thème au démarrage
+      (function () {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "light") {
+          document.documentElement.setAttribute("data-theme", "light");
+          document.querySelector(".theme-toggle").textContent = "☀️";
+        }
+      })();
+
+      // === LANGUAGE TOGGLE ===
+      function toggleLanguage() {
+        const langBtn = document.querySelector(".lang-toggle");
+        const currentLang = langBtn.textContent.trim();
+
+        const newLang = currentLang === "FR" ? "EN" : "FR";
+        langBtn.textContent = newLang;
+
+        // Changer tous les textes avec data-fr / data-en
+        document.querySelectorAll("[data-fr]").forEach((el) => {
+          el.textContent = el.getAttribute(
+            newLang === "FR" ? "data-fr" : "data-en"
+          );
+        });
+
+        localStorage.setItem("lang", newLang);
+      }
+
+      // Charger la langue au démarrage
+      (function () {
+        const savedLang = localStorage.getItem("lang") || "FR";
+        document.querySelector(".lang-toggle").textContent = savedLang;
+        document.querySelectorAll("[data-fr]").forEach((el) => {
+          el.textContent = el.getAttribute(
+            savedLang === "FR" ? "data-fr" : "data-en"
+          );
+        });
+      })();
+    </script>
+  </body>
+</html>
